@@ -10,6 +10,6 @@ const NavBar = () => {
       <ColorModeSwitch></ColorModeSwitch>
     </HStack>
   );
-};
+}; 
 
 export default NavBar;
