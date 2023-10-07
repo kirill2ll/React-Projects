@@ -32,7 +32,7 @@ function App() {
           lg: "250px 1fr",
         }}
       >
-        <GridItem area="nav">
+        <GridItem area="nav" paddingRight={2}>
           <NavBar
             onSearch={(searchText) =>
               setGameQuery({ ...gameQuery, searchText })
@@ -67,7 +67,9 @@ function App() {
               ></SortSelector>
             </Flex>
           </Box>
-          <GameGrid gameQuery={gameQuery}></GameGrid>
+          <Box paddingRight={2}>
+            <GameGrid gameQuery={gameQuery}></GameGrid>
+          </Box>
         </GridItem>
       </Grid>
     </>
