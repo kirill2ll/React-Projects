@@ -1,7 +1,7 @@
 const express = require("express");
 const uuid = require("uuid");
 
-const fakeTodos = [
+let fakeTodos = [
   {
     id: "123",
     text: "Go to the grocery store",
@@ -30,6 +30,19 @@ app.post("/todos", (req, res) => {
   };
   fakeTodos.push(newTodo);
   res.json(newTodo);
+});
+
+app.delete("/todos/:todoId", (req, res) => {
+  const todoId = req.params.todoId; // we get the todoId from url
+  fakeTodos = fakeTodos.filter((todo) => todo.id !== todoId);
+  res.json(fakeTodos);
+});
+
+app.put("/todos/:todoId", (req, res) => {
+  const todoId = req.params.todoId;
+  const todo = fakeTodos.find((todo) => todo.id === todoId);
+  todo.isCompleted = true;
+  res.json(fakeTodos);
 });
 
 app.listen(8080, () => {

@@ -23,9 +23,19 @@ function App() {
     setTodos([...todos, newTodo]);
   };
 
-  const completeTodo = (todoId) => {};
+  const completeTodo = async (todoId) => {
+    const response = await axios.put(`/todos/${todoId}`);
+    setTodos(response.data);
+  };
 
-  const deleteTodo = (todoId) => {};
+  const deleteTodo = async (todoId) => {
+    try {
+      const response = await axios.delete(`/todos/${todoId}`);
+      setTodos(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
