@@ -17,7 +17,11 @@ function App() {
     loadTodos();
   }, []);
 
-  const createTodo = (todoText) => {};
+  const createTodo = async (todoText) => {
+    const response = await axios.post("/todos", { newTodoText: todoText });
+    const newTodo = response.data;
+    setTodos([...todos, newTodo]);
+  };
 
   const completeTodo = (todoId) => {};
 
