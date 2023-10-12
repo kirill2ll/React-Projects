@@ -1,9 +1,22 @@
 const express = require("express");
 
+const fakeTodos = [
+  {
+    id: "123",
+    text: "Go to the grocery store",
+    isCompleted: false,
+  },
+  {
+    id: "124",
+    text: "Learn full stack",
+    isCompleted: true,
+  },
+];
+
 const app = express();
 
-app.get("/test", (req, res) => {
-  res.send("Hello from the backend");
+app.get("/todos", (req, res) => {
+  res.json(fakeTodos); //res.send(fakeTodos);
 });
 
 app.listen(8080, () => {
