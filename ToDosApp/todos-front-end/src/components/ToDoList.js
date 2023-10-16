@@ -7,7 +7,7 @@ const ToDoList = ({ todos, onCompleteToDo, onDeleteToDo }) => {
       {todos.map((todo) => {
         return (
           <ToDoListItem
-            key={todo.id}
+            key={todo._id}
             todo={todo}
             onClickComplete={onCompleteToDo}
             onClickDelete={onDeleteToDo}
