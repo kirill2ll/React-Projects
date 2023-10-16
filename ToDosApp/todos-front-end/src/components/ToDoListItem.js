@@ -1,15 +1,20 @@
 import React from "react";
+import { Card, Button } from "react-bootstrap";
 
 const ToDoListItem = ({ todo, onClickComplete, onClickDelete }) => {
   return (
-    <div>
-      <h3>{todo.text}</h3>
-      {todo.isCompleted && <p>Complete!</p>}
-      <button onClick={() => onClickComplete(todo._id)}>
-        Mark as completed
-      </button>
-      <button onClick={() => onClickDelete(todo._id)}>Delete</button>
-    </div>
+    <Card>
+      <Card.Body>
+        <Card.Title>{todo.text}</Card.Title>
+        {todo.isCompleted && <p>Complete!</p>}
+        <Button variant="success" onClick={() => onClickComplete(todo._id)}>
+          Mark as Completed
+        </Button>
+        <Button variant="danger" onClick={() => onClickDelete(todo._id)}>
+          Delete
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 

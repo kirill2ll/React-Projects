@@ -1,20 +1,21 @@
 import React from "react";
 import ToDoListItem from "./ToDoListItem";
+import { Card } from "react-bootstrap";
 
 const ToDoList = ({ todos, onCompleteToDo, onDeleteToDo }) => {
   return (
-    <div>
-      {todos.map((todo) => {
-        return (
+    <Card>
+      <Card.Body>
+        {todos.map((todo) => (
           <ToDoListItem
             key={todo._id}
             todo={todo}
             onClickComplete={onCompleteToDo}
             onClickDelete={onDeleteToDo}
           />
-        );
-      })}
-    </div>
+        ))}
+      </Card.Body>
+    </Card>
   );
 };
 

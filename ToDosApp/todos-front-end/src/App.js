@@ -1,12 +1,18 @@
-import logo from "./logo.svg";
-import "./App.css";
-import NewToDoForm from "./components/NewToDoForm";
-import ToDoList from "./components/ToDoList";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  ListGroup,
+  Button,
+  Form,
+} from "react-bootstrap";
 import axios from "axios";
 
-function App() {
+const App = () => {
   const [todos, setTodos] = useState([]);
+  const [newTodoText, setNewTodoText] = useState("");
 
   useEffect(() => {
     const loadTodos = async () => {
@@ -17,10 +23,15 @@ function App() {
     loadTodos();
   }, []);
 
-  const createTodo = async (todoText) => {
-    const response = await axios.post("/todos", { newTodoText: todoText });
+  const createTodo = async () => {
+    if (!newTodoText) {
+      return;
+    }
+
+    const response = await axios.post("/todos", { newTodoText });
     const newTodo = response.data;
     setTodos([...todos, newTodo]);
+    setNewTodoText("");
   };
 
   const completeTodo = async (todoId) => {
@@ -38,16 +49,56 @@ function App() {
   };
 
   return (
-    <>
-      <h1>My Todos</h1>
-      <NewToDoForm onClickCreate={createTodo}></NewToDoForm>
-      <ToDoList
-        todos={todos}
-        onCompleteToDo={completeTodo}
-        onDeleteToDo={deleteTodo}
-      ></ToDoList>
-    </>
+    <Container>
+      <Row className="mt-4">
+        <Col>
+          <h1>My Todos</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Body>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter a new todo..."
+                  value={newTodoText}
+                  onChange={(e) => setNewTodoText(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={createTodo}>
+                Create
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mt-4">
+        <Col>
+          <ListGroup>
+            {todos.map((todo) => (
+              <ListGroup.Item key={todo._id}>
+                <div>
+                  <h3>{todo.text}</h3>
+                  {todo.isCompleted && <p>Complete!</p>}
+                  <Button
+                    variant="success"
+                    onClick={() => completeTodo(todo._id)}
+                  >
+                    Mark as Completed
+                  </Button>
+                  <Button variant="danger" onClick={() => deleteTodo(todo._id)}>
+                    Delete
+                  </Button>
+                </div>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default App;
