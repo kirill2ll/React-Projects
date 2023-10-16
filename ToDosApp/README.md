@@ -1,8 +1,4 @@
-# Game Portal
-
-## Name
-
-To Do App
+# To Do App
 
 ## Description
 
