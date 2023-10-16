@@ -27,16 +27,23 @@ const App = () => {
     if (!newTodoText) {
       return;
     }
-
-    const response = await axios.post("/todos", { newTodoText });
-    const newTodo = response.data;
-    setTodos([...todos, newTodo]);
-    setNewTodoText("");
+    try {
+      const response = await axios.post("/todos", { newTodoText });
+      const newTodo = response.data;
+      setTodos([...todos, newTodo]);
+      setNewTodoText("");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const completeTodo = async (todoId) => {
-    const response = await axios.put(`/todos/${todoId}`);
-    setTodos(response.data);
+    try {
+      const response = await axios.put(`/todos/${todoId}`);
+      setTodos(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const deleteTodo = async (todoId) => {
