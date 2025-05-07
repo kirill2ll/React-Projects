@@ -7,14 +7,11 @@ export default function Player({ name, symbol }) {
     return (
         <li>
             <span className="player">
-                {!isEditing && <span className="player-name">{name}</span>}
-                {isEditing && <input type="text" onChange={(e) => name = e.target.value} />}
+                {!isEditing && <span className="player-name">{newName}</span>}
+                {isEditing && <input type="text" value={newName} onChange={(e) => setName(e.target.value)} />}
                 <span className="player-symbol">{symbol}</span>
             </span>
-            {!isEditing &&
-                <button onClick={() => setIsEditing(true)}>Edit</button>}
-            {isEditing &&
-                <button onClick={() => setIsEditing(false)}>Save</button>}
+            <button onClick={() => setIsEditing(isEditing => !isEditing)}>{isEditing ? 'Save' : 'Edit'}</button>
         </li>
     )
 }
