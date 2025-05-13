@@ -3,6 +3,7 @@ import GameBoard from "./components/GameBoard"
 import { useState } from "react"
 import Log from "./components/Log"
 import { WINNING_COMBINATIONS } from "./winning-combinations"
+import GameOver from "./components/GameOver"
 
 const initialGameBoard = [
   [null, null, null],
@@ -29,6 +30,7 @@ function App() {
   });
 
   let winner = null;
+  const isDraw = gameTurns.length === 9 && winner === null;
 
   WINNING_COMBINATIONS.forEach(combination => {
     const firstSymbol = gameBoard[combination[0].row][combination[0].column];
@@ -36,7 +38,6 @@ function App() {
     const thirdSymbol = gameBoard[combination[2].row][combination[2].column];
 
     if (firstSymbol !== null && firstSymbol === secondSymbol && firstSymbol === thirdSymbol) {
-      alert(`Player ${firstSymbol} wins!`);
       winner = firstSymbol;
     }
   })
@@ -60,6 +61,7 @@ function App() {
           <Player name="Player 2" symbol="O" isActive={activePlayer === 'O'} />
         </ol>
         <GameBoard onSelectSquare={handleSelectSquare} gameBoard={gameBoard} />
+        {(winner || isDraw) && <GameOver winner={winner} />}
       </div>
       <Log gameTurns={gameTurns} />
     </main>
