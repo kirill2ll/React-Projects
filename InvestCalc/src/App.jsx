@@ -10,14 +10,13 @@ function App() {
     expectedReturn: 6,
     duration: 10
   })
-
-  console.log(inputData)
-
+  const inputIsValid = inputData.duration > 0;
 
   return (
     <main>
       <InputGroup onChangeInput={setInputData} inputData={inputData} />
-      <InvestmentResults inputData={inputData} />
+      {inputIsValid && <InvestmentResults inputData={inputData} />}
+      {!inputIsValid && <p className="center">The duration should be greater than 0!</p>}
     </main>
   )
 }
