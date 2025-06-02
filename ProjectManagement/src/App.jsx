@@ -1,9 +1,11 @@
 import Sidebar from "./components/Sidebar";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 function App() {
-  const [projects, setProjects] = useState(["Project 1", "Project 2"]);
+  const [projects, setProjects] = useState([]);
+  const inputProject = useRef();
+
 
   function handleAddProject(name){
     setProjects([...projects, {name: name, tasks: []}])
@@ -12,7 +14,7 @@ function App() {
   return (
     <>
       <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
-      <Sidebar title="Projects" projects={projects} handleAddProject={handleAddProject}/>
+      <Sidebar title="Projects" projects={projects} ref={inputProject} handleAddProject={handleAddProject}/>
     </>
   );
 }
