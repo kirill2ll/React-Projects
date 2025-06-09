@@ -20,24 +20,31 @@ function App() {
     setDisplayNewProject(false);
   }
 
+  function handleAddTaskToProject(project, task) {
+    setProjects(prevProjects =>
+      prevProjects.map(p =>
+        p.name === project.name ? { ...p, tasks: [...p.tasks, task] } : p
+      )
+    );
+  }
+  
 
   function saveNewProject(title, description, dueDate) {
-    setProjects([...projects, { name: title, description, dueDate }]);
+    setProjects([...projects, { name: title, description, dueDate, tasks: [] }]);
     setDisplayNewProject(false);
     setSelectedProject(null);
   }
 
   return (
-    <>
-      <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
+    <main className="h-screen my-8">
       <Sidebar title="Projects"
         projects={projects}
         handleAddProject={handleAddProject}
         handleSelectProject={handleSelectProject} />
 
       {displayNewProject && <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} />}
-      {selectedProject && <Project project={selectedProject} />}
-    </>
+      {selectedProject && <Project project={selectedProject} handleAddTaskToProject={handleAddTaskToProject} />}
+    </main>
   );
 }
 
