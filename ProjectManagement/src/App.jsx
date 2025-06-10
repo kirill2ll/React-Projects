@@ -1,4 +1,5 @@
 import InputProject from "./components/InputProject";
+import NoProjectSelected from "./components/NoProjectSelected";
 import Project from "./components/Project";
 import Sidebar from "./components/Sidebar";
 import { useState, useRef } from "react";
@@ -42,7 +43,7 @@ function App() {
         handleAddProject={handleAddProject}
         handleSelectProject={handleSelectProject} />
 
-      {displayNewProject && <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} />}
+      {displayNewProject ? <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} /> : <NoProjectSelected handleAddProject={handleAddProject}/>}
       {selectedProject && <Project project={selectedProject} handleAddTaskToProject={handleAddTaskToProject} />}
     </main>
   );
