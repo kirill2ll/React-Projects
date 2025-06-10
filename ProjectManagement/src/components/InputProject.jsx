@@ -7,10 +7,10 @@ export default function InputProject({ saveNewProject, handleAddProject }) {
     const dueDate = useRef();
 
     return (
-        <section>
-            <menu>
-                <button onClick={() => handleAddProject(false)}>Cancel</button>
-                <button onClick={() => saveNewProject(title.current.value, description.current.value, dueDate.current.value)}>Save</button>
+        <section className="w-[35rem] mt-16">
+            <menu className="flex items-center justify-end gap-4 my-4">
+                <button onClick={() => handleAddProject(false)} className="text-stone-800 hover:text-stone-950">Cancel</button>
+                <button onClick={() => saveNewProject(title.current.value, description.current.value, dueDate.current.value)} className="bg-stone-800 hover:bg-stone-950 text-stone-50 px-6 py-2 rounded-md">Save</button>
             </menu>
             <div>
                 <Input label="Title" type="text" ref={title} />
