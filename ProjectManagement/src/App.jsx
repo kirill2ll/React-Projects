@@ -6,10 +6,14 @@ import { useState, useRef } from "react";
 
 
 function App() {
+  // const [projectsState, setProjectsState] = useState({
+  //   projects : [],
+  //   selectedProjectId : undefined //undefined : no project selected, null : add new project, 
+  // })
+
   const [projects, setProjects] = useState([]);
   const [displayNewProject, setDisplayNewProject] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null)
-
 
   function handleAddProject(isVisible) {
     setDisplayNewProject(isVisible);
@@ -21,30 +25,53 @@ function App() {
     setDisplayNewProject(false);
   }
 
-  function handleAddTaskToProject(project, task) {
-    setProjects(prevProjects =>
-      prevProjects.map(p =>
-        p.name === project.name ? { ...p, tasks: [...p.tasks, task] } : p
-      )
-    );
+  function handleAddTaskToProject(task) {
+    setSelectedProject(prevProject => {
+      return { ...prevProject, tasks: [task, ...prevProject.tasks] }
+    })
   }
-  
+
+  function handleDeleteTaskfromProject(taskToRemove) {
+    setSelectedProject(prevProject => {
+      return { ...prevProject, tasks: prevProject.tasks.filter(task => taskToRemove !== task) }
+    })
+  }
 
   function saveNewProject(title, description, dueDate) {
-    setProjects([...projects, { name: title, description, dueDate, tasks: [] }]);
+    setProjects([...projects, { name: title, description, dueDate, tasks: [], id: Math.random() }]);
     setDisplayNewProject(false);
     setSelectedProject(null);
   }
+
+  function handleDeleteProject() {
+    setProjects(prevProjects => prevProjects.filter(p => p.id !== selectedProject.id));
+    setSelectedProject(null);
+  }
+
+
+  let content;
+  if (displayNewProject) {
+    content = <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} />
+  } else if (selectedProject) {
+    content = <Project project={selectedProject} handleAddTaskToProject={handleAddTaskToProject} handleDeleteTaskfromProject={handleDeleteTaskfromProject} handleDeleteProject={handleDeleteProject} />
+  } else {
+    content = <NoProjectSelected handleAddProject={handleAddProject} />
+  }
+
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <Sidebar title="Projects"
         projects={projects}
         handleAddProject={handleAddProject}
-        handleSelectProject={handleSelectProject} />
+        handleSelectProject={handleSelectProject}
+        selectedProject={selectedProject}
+      />
 
-      {displayNewProject ? <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} /> : <NoProjectSelected handleAddProject={handleAddProject}/>}
-      {selectedProject && <Project project={selectedProject} handleAddTaskToProject={handleAddTaskToProject} />}
+      {content}
+
+      {/* {displayNewProject ? <InputProject saveNewProject={saveNewProject} handleAddProject={handleAddProject} /> : <NoProjectSelected handleAddProject={handleAddProject}/>}
+      {selectedProject && <Project project={selectedProject} handleAddTaskToProject={handleAddTaskToProject} />} */}
     </main>
   );
 }
