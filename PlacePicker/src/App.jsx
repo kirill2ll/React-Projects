@@ -58,15 +58,17 @@ function App() {
     localStorage.setItem('picked-places', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)));
 
   }, []);
-  
+
 
   return (
     <>
       <Modal isOpen={modalIsOpen}>
-        <DeleteConfirmation
-          onCancel={handleStopRemovePlace}
-          onConfirm={handleRemovePlace}
-        />
+        {modalIsOpen && (
+          <DeleteConfirmation
+            onCancel={handleStopRemovePlace}
+            onConfirm={handleRemovePlace}
+          />
+        )}
       </Modal>
 
       <header>
