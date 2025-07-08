@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import QUESTIONS from "../questions";
 
 import quizOver from "../assets/quiz-complete.png"
@@ -8,9 +8,11 @@ export default function Quiz() {
     const [userAnswers, setUserAnswers] = useState([]);
     const isOverQuiz = userAnswers.length === QUESTIONS.length;
 
-    function handleSelectAnswer(answer) {
+    const handleSelectAnswer = useCallback(function handleSelectAnswer(answer) {
         setUserAnswers((prevAnswers) => [...prevAnswers, answer]);
-    }
+    }, [])
+
+    const handleSkipAnswer = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer]);
 
     if (isOverQuiz) {
         return (
@@ -20,14 +22,17 @@ export default function Quiz() {
             </div>
         )
     }
-    
+
     const activeQuestion = userAnswers.length;
-    const shuffledAnswers = QUESTIONS[activeQuestion].answers.sort(() => Math.random() - 0.5);
+    const currentQuestion = QUESTIONS[activeQuestion];
+    if (!currentQuestion) return null; 
+
+    const shuffledAnswers = [...currentQuestion.answers].sort(() => Math.random() - 0.5);
 
     return (
         <div id="quiz">
             <div id="question">
-                <QuestionTimer time={5} onTimeout={()=> handleSelectAnswer(null)}/>
+                <QuestionTimer time={5} onTimeout={handleSkipAnswer} />
                 <h2>{QUESTIONS[activeQuestion].text}</h2>
                 <ul id="answers">
                     {shuffledAnswers.map(answer => {
